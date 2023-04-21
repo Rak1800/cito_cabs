@@ -1,6 +1,7 @@
 const slotModel = require("../models/slotModel")
 
 const timeSlot=async (req,res)=>{
+    try{
     const data=req.body
     const {Date,Start_time,End_time}=data
     if(!Date) return res.status(400).send({status:false, message:"Date is mandatory , like((DD/MM/YYYY)"})
@@ -13,7 +14,9 @@ const timeSlot=async (req,res)=>{
     const saveSlot= await slotModel.create(data)
 
     return res.status(201).send({status:true, message:"Time_slot Saved", saveSlot})
-
+    }catch(err){
+        return res.status(500).send({status:false,message:err.message})
+    }
 }
 
 module.exports={timeSlot}
